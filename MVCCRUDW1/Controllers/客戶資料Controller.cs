@@ -21,12 +21,14 @@ namespace MVCCRUDW1.Controllers
         // GET: 客戶資料
         public ActionResult Index()
         {
+            ViewBag.客戶分類 = re客.客戶分類ItemList();
             return View(re客.All());
         }
 
         // GET: 客戶資料/Details/5
         public ActionResult Details(int? id)
         {
+            ViewBag.客戶分類 = re客.客戶分類ItemList();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -50,7 +52,7 @@ namespace MVCCRUDW1.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,刪除")] 客戶資料 客戶資料)
+        public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,刪除,客戶分類")] 客戶資料 客戶資料)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +68,7 @@ namespace MVCCRUDW1.Controllers
         // GET: 客戶資料/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewBag.客戶分類 = re客.客戶分類ItemList();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
