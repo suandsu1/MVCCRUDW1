@@ -54,6 +54,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="客戶名稱" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="刪除" Type="bit" />
           <Property Name="銀行帳戶數量" Type="int" />
           <Property Name="聯絡人數量" Type="int" />
         </EntityType>
@@ -89,6 +90,7 @@
             <DefiningQuery>SELECT 
     [View客戶統計表].[Id] AS [Id], 
     [View客戶統計表].[客戶名稱] AS [客戶名稱], 
+    [View客戶統計表].[刪除] AS [刪除], 
     [View客戶統計表].[銀行帳戶數量] AS [銀行帳戶數量], 
     [View客戶統計表].[聯絡人數量] AS [聯絡人數量]
     FROM [dbo].[View客戶統計表] AS [View客戶統計表]</DefiningQuery>
@@ -159,6 +161,7 @@
           <Property Name="客戶名稱" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="銀行帳戶數量" Type="Int32" />
           <Property Name="聯絡人數量" Type="Int32" />
+          <Property Name="刪除" Type="Boolean" />
         </EntityType>
         <Association Name="FK_客戶銀行資訊_客戶資料">
           <End Role="客戶資料" Type="Self.客戶資料" Multiplicity="1" />
@@ -250,6 +253,7 @@
           <EntitySetMapping Name="View客戶統計表">
             <EntityTypeMapping TypeName="客戶資料Model.View客戶統計表">
               <MappingFragment StoreEntitySet="View客戶統計表">
+                <ScalarProperty Name="刪除" ColumnName="刪除" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="客戶名稱" ColumnName="客戶名稱" />
                 <ScalarProperty Name="銀行帳戶數量" ColumnName="銀行帳戶數量" />
