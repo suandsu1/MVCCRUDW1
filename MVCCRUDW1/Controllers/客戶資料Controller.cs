@@ -54,6 +54,7 @@ namespace MVCCRUDW1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,刪除,客戶分類")] 客戶資料 客戶資料)
         {
+          
             if (ModelState.IsValid)
             {
                 客戶資料.刪除 = false;

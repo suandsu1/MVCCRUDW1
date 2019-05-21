@@ -56,14 +56,18 @@ namespace MVCCRUDW1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,客戶Id,職稱,姓名,Email,手機,電話,刪除")] 客戶聯絡人 客戶聯絡人)
         {
-            if (ModelState.IsValid)
+            var s = db聯絡人.EmailFind(客戶聯絡人.Email);
+            if (ModelState.IsValid && (s == null))
             {
                 客戶聯絡人.刪除 = false;
                 db聯絡人.Add(客戶聯絡人);
                 db聯絡人.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
-
+            if (s != null)
+            {
+                ViewBag.ErrorMessage = "你輸入的Email已經使用過";
+            }
             ViewBag.客戶Id = new SelectList(re客.All(), "Id", "客戶名稱", 客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
         }
