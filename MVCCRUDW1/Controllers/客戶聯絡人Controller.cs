@@ -12,12 +12,18 @@ namespace MVCCRUDW1.Controllers
 {
     public class 客戶聯絡人Controller : Controller
     {
-        private 客戶資料Entities db = new 客戶資料Entities();
+        客戶聯絡人Repository db聯絡人;
+        客戶資料Repository re客;
+        public 客戶聯絡人Controller()
+        {
+            db聯絡人 = RepositoryHelper.Get客戶聯絡人Repository();
+            re客 = RepositoryHelper.Get客戶資料Repository();
+        }
 
         // GET: 客戶聯絡人
         public ActionResult Index()
         {
-            var 客戶聯絡人 = db.客戶聯絡人.Include(客 => 客.客戶資料);
+            var 客戶聯絡人 = db聯絡人.All().Include(客 => 客.客戶資料);
             return View(客戶聯絡人.ToList());
         }
 
@@ -28,7 +34,7 @@ namespace MVCCRUDW1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
+            客戶聯絡人 客戶聯絡人 = db聯絡人.Find(id.Value);
             if (客戶聯絡人 == null)
             {
                 return HttpNotFound();
@@ -39,7 +45,7 @@ namespace MVCCRUDW1.Controllers
         // GET: 客戶聯絡人/Create
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(re客.All(), "Id", "客戶名稱");
             return View();
         }
 
@@ -52,12 +58,13 @@ namespace MVCCRUDW1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶聯絡人.Add(客戶聯絡人);
-                db.SaveChanges();
+                客戶聯絡人.刪除 = false;
+                db聯絡人.Add(客戶聯絡人);
+                db聯絡人.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶聯絡人.客戶Id);
+            ViewBag.客戶Id = new SelectList(re客.All(), "Id", "客戶名稱", 客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
         }
 
@@ -68,12 +75,12 @@ namespace MVCCRUDW1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
+            客戶聯絡人 客戶聯絡人 = db聯絡人.Find(id.Value);
             if (客戶聯絡人 == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶聯絡人.客戶Id);
+            ViewBag.客戶Id = new SelectList(re客.All(), "Id", "客戶名稱", 客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
         }
 
@@ -86,11 +93,12 @@ namespace MVCCRUDW1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(客戶聯絡人).State = EntityState.Modified;
-                db.SaveChanges();
+                客戶聯絡人.刪除 = false;
+                db聯絡人.UnitOfWork.Context.Entry(客戶聯絡人).State = EntityState.Modified;
+                db聯絡人.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶聯絡人.客戶Id);
+            ViewBag.客戶Id = new SelectList(re客.All(), "Id", "客戶名稱", 客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
         }
 
@@ -101,7 +109,7 @@ namespace MVCCRUDW1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
+            客戶聯絡人 客戶聯絡人 = db聯絡人.Find(id.Value);
             if (客戶聯絡人 == null)
             {
                 return HttpNotFound();
@@ -114,9 +122,9 @@ namespace MVCCRUDW1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
-            db.客戶聯絡人.Remove(客戶聯絡人);
-            db.SaveChanges();
+            var 客戶聯絡人 = db聯絡人.Find(id);
+            客戶聯絡人.刪除 = true; //代表刪除
+            db聯絡人.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 
@@ -124,7 +132,7 @@ namespace MVCCRUDW1.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                db聯絡人.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }

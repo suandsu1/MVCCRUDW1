@@ -36,6 +36,8 @@ namespace MVCCRUDW1.Models
         public string Email { get; set; }
 
         public Nullable<bool> 刪除 { get; set; }
+        [Required]
+        public string 客戶分類 { get; set; }
 
         public virtual ICollection<客戶銀行資訊> 客戶銀行資訊 { get; set; }
         public virtual ICollection<客戶聯絡人> 客戶聯絡人 { get; set; }

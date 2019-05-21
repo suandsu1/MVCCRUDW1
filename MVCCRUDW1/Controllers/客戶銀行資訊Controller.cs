@@ -12,12 +12,18 @@ namespace MVCCRUDW1.Controllers
 {
     public class 客戶銀行資訊Controller : Controller
     {
-        private 客戶資料Entities db = new 客戶資料Entities();
+        客戶銀行資訊Repository db客戶銀行;
+        客戶資料Repository re客;
+        public 客戶銀行資訊Controller()
+        {
+            db客戶銀行 = RepositoryHelper.Get客戶銀行資訊Repository();
+            re客 = RepositoryHelper.Get客戶資料Repository();
+        }
 
         // GET: 客戶銀行資訊
         public ActionResult Index()
         {
-            var 客戶銀行資訊 = db.客戶銀行資訊.Include(客 => 客.客戶資料);
+            var 客戶銀行資訊 = db客戶銀行.All().Include(客 => 客.客戶資料);
             return View(客戶銀行資訊.ToList());
         }
 
@@ -28,7 +34,7 @@ namespace MVCCRUDW1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
+            客戶銀行資訊 客戶銀行資訊 = db客戶銀行.Find(id.Value);
             if (客戶銀行資訊 == null)
             {
                 return HttpNotFound();
@@ -39,7 +45,7 @@ namespace MVCCRUDW1.Controllers
         // GET: 客戶銀行資訊/Create
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(re客.All(), "Id", "客戶名稱");
             return View();
         }
 
@@ -52,12 +58,13 @@ namespace MVCCRUDW1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶銀行資訊.Add(客戶銀行資訊);
-                db.SaveChanges();
+                客戶銀行資訊.刪除 = false;
+                db客戶銀行.Add(客戶銀行資訊);
+                db客戶銀行.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
+            ViewBag.客戶Id = new SelectList(re客.All(), "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
             return View(客戶銀行資訊);
         }
 
@@ -68,12 +75,12 @@ namespace MVCCRUDW1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
+            客戶銀行資訊 客戶銀行資訊 = db客戶銀行.Find(id.Value);
             if (客戶銀行資訊 == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
+            ViewBag.客戶Id = new SelectList(re客.All(), "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
             return View(客戶銀行資訊);
         }
 
@@ -86,11 +93,12 @@ namespace MVCCRUDW1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(客戶銀行資訊).State = EntityState.Modified;
-                db.SaveChanges();
+                客戶銀行資訊.刪除 = false;
+                db客戶銀行.UnitOfWork.Context.Entry(客戶銀行資訊).State = EntityState.Modified;
+                db客戶銀行.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
+            ViewBag.客戶Id = new SelectList(re客.All(), "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
             return View(客戶銀行資訊);
         }
 
@@ -101,7 +109,7 @@ namespace MVCCRUDW1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
+            客戶銀行資訊 客戶銀行資訊 = db客戶銀行.Find(id.Value);
             if (客戶銀行資訊 == null)
             {
                 return HttpNotFound();
@@ -114,9 +122,9 @@ namespace MVCCRUDW1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
-            db.客戶銀行資訊.Remove(客戶銀行資訊);
-            db.SaveChanges();
+            var 客戶銀行資訊 = db客戶銀行.Find(id);
+            客戶銀行資訊.刪除 = true; //代表刪除
+            db客戶銀行.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 
@@ -124,7 +132,7 @@ namespace MVCCRUDW1.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                db客戶銀行.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }

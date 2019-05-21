@@ -12,13 +12,16 @@ namespace MVCCRUDW1.Controllers
 {
     public class 客戶資料Controller : Controller
     {
-       
-        private 客戶資料Entities db = new 客戶資料Entities();
+        客戶資料Repository re客;
+        public 客戶資料Controller()
+        {
+            re客 = RepositoryHelper.Get客戶資料Repository();
+        }
 
         // GET: 客戶資料
         public ActionResult Index()
         {
-            return View(db.客戶資料.ToList());
+            return View(re客.All());
         }
 
         // GET: 客戶資料/Details/5
@@ -28,7 +31,7 @@ namespace MVCCRUDW1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = re客.Find(id.Value);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -51,8 +54,9 @@ namespace MVCCRUDW1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶資料.Add(客戶資料);
-                db.SaveChanges();
+                客戶資料.刪除 = false;
+                re客.Add(客戶資料);
+                re客.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +70,7 @@ namespace MVCCRUDW1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = re客.Find(id.Value);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -83,8 +87,9 @@ namespace MVCCRUDW1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(客戶資料).State = EntityState.Modified;
-                db.SaveChanges();
+                客戶資料.刪除 = false;
+                re客.UnitOfWork.Context.Entry(客戶資料).State = EntityState.Modified;
+                re客.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
             return View(客戶資料);
@@ -97,7 +102,7 @@ namespace MVCCRUDW1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = re客.Find(id.Value);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -110,9 +115,9 @@ namespace MVCCRUDW1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
-            db.客戶資料.Remove(客戶資料);
-            db.SaveChanges();
+            var 客戶資料 = re客.Find(id);
+            客戶資料.刪除 = true; //代表刪除
+            re客.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 
@@ -120,7 +125,7 @@ namespace MVCCRUDW1.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                re客.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }
