@@ -16,7 +16,7 @@ namespace MVCCRUDW1.Models
             var 客where = this.All();
             if (!String.IsNullOrEmpty(searchString))
             {
-                客where = 客where.Where(s => s.帳戶名稱.Contains(searchString));
+                客where = 客where.Where(s => s.銀行名稱.Contains(searchString));
             }
 
             switch (sortOrder)

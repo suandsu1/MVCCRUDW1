@@ -21,10 +21,16 @@ namespace MVCCRUDW1.Controllers
         }
 
         // GET: 客戶聯絡人
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentSort, string searchString = null)
         {
-            var 客戶聯絡人 = db聯絡人.All().Include(客 => 客.客戶資料);
-            return View(客戶聯絡人.ToList());
+            ViewBag.職稱Sort = String.IsNullOrEmpty(currentSort) ? "職稱" : sortOrder;
+            ViewBag.姓名Sort = currentSort == "姓名" ? "" : sortOrder;
+            ViewBag.EmailSort = currentSort == "Email" ? "" : sortOrder;
+            ViewBag.電話Sort = currentSort == "電話" ? "" : sortOrder;
+            ViewBag.手機Sort = currentSort == "手機" ? "" : sortOrder;
+
+            var 客where = db聯絡人.searchALL(sortOrder, currentSort, searchString);
+            return View(客where.ToList());
         }
 
         // GET: 客戶聯絡人/Details/5

@@ -12,7 +12,8 @@ namespace MVCCRUDW1.Models
             List<SelectListItem> 分類ItemList = new List<SelectListItem>();
 
             分類ItemList.AddRange(new[]{
-                new SelectListItem() { Text = "組織一", Value = "組織一", Selected = true},
+                new SelectListItem() { Text = "客戶分類", Value = "", Selected = true},
+                new SelectListItem() { Text = "組織一", Value = "組織一", Selected = false},
                 new SelectListItem() { Text = "組織二", Value = "組織二", Selected = false},
                 new SelectListItem() { Text = "組織三", Value = "組織三", Selected = false}
              });

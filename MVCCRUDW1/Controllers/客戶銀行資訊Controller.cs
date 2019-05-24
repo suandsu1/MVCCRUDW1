@@ -21,9 +21,14 @@ namespace MVCCRUDW1.Controllers
         }
 
         // GET: 客戶銀行資訊
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentSort, string searchString = null)
         {
-            var 客戶銀行資訊 = db客戶銀行.All().Include(客 => 客.客戶資料);
+            ViewBag.客戶IdSort = String.IsNullOrEmpty(currentSort) ? "客戶Id" : "";
+            ViewBag.帳戶名稱Sort = currentSort == "帳戶名稱" ? "" : sortOrder;
+            ViewBag.帳戶號碼Sort = currentSort == "帳戶號碼" ? "" : sortOrder;
+            ViewBag.銀行代碼Sort = currentSort == "銀行代碼" ? "" : sortOrder;
+            ViewBag.銀行名稱Sort = currentSort == "銀行名稱" ? "" : sortOrder;
+            var 客戶銀行資訊 = db客戶銀行.searchALL(sortOrder, currentSort, searchString);
             return View(客戶銀行資訊.ToList());
         }
 

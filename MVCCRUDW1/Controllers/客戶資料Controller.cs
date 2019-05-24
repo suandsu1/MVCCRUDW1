@@ -19,16 +19,30 @@ namespace MVCCRUDW1.Controllers
         }
 
         // GET: 客戶資料
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentSort, string searchString = null, string 客戶分類ItemList = null)
         {
             ViewBag.客戶分類 = re客.客戶分類ItemList();
-            return View(re客.All());
+            ViewBag.客戶分類ItemList = re客.客戶分類ItemList();
+
+            ViewBag.客戶名稱Sort = String.IsNullOrEmpty(currentSort) ? "客戶名稱" : "";
+            ViewBag.統一編號Sort = currentSort == "統一編號" ? "" : sortOrder;
+            ViewBag.電話Sort = currentSort == "電話" ? "" : sortOrder;
+            ViewBag.傳真Sort = currentSort == "傳真" ? "" : sortOrder;
+            ViewBag.地址Sort = currentSort == "地址" ? "" : sortOrder;
+            ViewBag.EmailSort = currentSort == "Email" ? "" : sortOrder;
+            ViewBag.客戶分類Sort = currentSort == "客戶分類" ? "" : sortOrder;
+
+            var 客where = re客.searchALL(sortOrder, currentSort, searchString, 客戶分類ItemList);
+            var 資料Export = 客where.Select(c => new { c.客戶分類, c.客戶名稱, c.電話, c.傳真, c.地址 });
+
+            return View(客where.ToList());
+
         }
 
         // GET: 客戶資料/Details/5
         public ActionResult Details(int? id)
         {
-            ViewBag.客戶分類 = re客.客戶分類ItemList();
+          
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -44,6 +58,7 @@ namespace MVCCRUDW1.Controllers
         // GET: 客戶資料/Create
         public ActionResult Create()
         {
+            ViewBag.客戶分類 = re客.客戶分類ItemList();
             return View();
         }
 
@@ -87,7 +102,7 @@ namespace MVCCRUDW1.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,刪除")] 客戶資料 客戶資料)
+        public ActionResult Edit([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,刪除,客戶分類")] 客戶資料 客戶資料)
         {
             if (ModelState.IsValid)
             {
