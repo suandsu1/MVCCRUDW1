@@ -10,7 +10,7 @@ using MVCCRUDW1.Models;
 
 namespace MVCCRUDW1.Controllers
 {
-    public class 客戶資料Controller : Controller
+    public class 客戶資料Controller : ClosedXMLController
     {
         客戶資料Repository re客;
         public 客戶資料Controller()
@@ -38,6 +38,16 @@ namespace MVCCRUDW1.Controllers
             return View(客where.ToList());
 
         }
+
+        //closedXML匯出
+        public ActionResult closedXMLDataExport(string sortOrder, string currentSort, string searchString = null, string 客戶分類ItemList = null)
+        {
+            var 客where = re客.searchALL(sortOrder, currentSort, searchString, 客戶分類ItemList);
+            var 資料Export = 客where.Select(c => new { c.客戶分類, c.客戶名稱, c.電話, c.傳真, c.地址 });
+
+            return DataExport(資料Export, "客戶資料");
+        }
+
 
         // GET: 客戶資料/Details/5
         public ActionResult Details(int? id)

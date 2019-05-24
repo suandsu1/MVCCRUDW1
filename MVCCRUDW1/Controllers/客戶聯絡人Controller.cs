@@ -10,7 +10,7 @@ using MVCCRUDW1.Models;
 
 namespace MVCCRUDW1.Controllers
 {
-    public class 客戶聯絡人Controller : Controller
+    public class 客戶聯絡人Controller : ClosedXMLController
     {
         客戶聯絡人Repository db聯絡人;
         客戶資料Repository re客;
@@ -32,7 +32,14 @@ namespace MVCCRUDW1.Controllers
             var 客where = db聯絡人.searchALL(sortOrder, currentSort, searchString);
             return View(客where.ToList());
         }
+        //closedXML匯出
+        public ActionResult closedXMLDataExport(string sortOrder, string currentSort, string searchString = null)
+        {
+            var 客where = db聯絡人.searchALL(sortOrder, currentSort, searchString);
+            var 資料Export = 客where.Select(c => new { c.客戶資料.客戶名稱, c.職稱, c.姓名, c.Email, c.電話, c.手機 });
 
+            return DataExport(資料Export, "客戶聯絡人");
+        }
         // GET: 客戶聯絡人/Details/5
         public ActionResult Details(int? id)
         {
