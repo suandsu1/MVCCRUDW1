@@ -40,7 +40,9 @@
         </th>
 
         <th>
-            @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
+            @Html.ActionLink("客戶資料", "Index", new { sortOrder = "客戶名稱", currentSort = ViewBag.客戶名稱Sort })
+
+            @*@Html.DisplayNameFor(model => model.客戶資料.客戶名稱)*@
         </th>
         <th></th>
     </tr>

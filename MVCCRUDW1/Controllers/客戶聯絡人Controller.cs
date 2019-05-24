@@ -28,7 +28,7 @@ namespace MVCCRUDW1.Controllers
             ViewBag.EmailSort = currentSort == "Email" ? "" : sortOrder;
             ViewBag.電話Sort = currentSort == "電話" ? "" : sortOrder;
             ViewBag.手機Sort = currentSort == "手機" ? "" : sortOrder;
-
+            ViewBag.客戶名稱Sort = currentSort == "客戶名稱" ? "" : sortOrder;
             var 客where = db聯絡人.searchALL(sortOrder, currentSort, searchString);
             return View(客where.ToList());
         }

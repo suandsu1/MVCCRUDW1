@@ -50,6 +50,11 @@ namespace MVCCRUDW1.Models
                     { 客where = 客where.OrderByDescending(s => s.電話); }
                     else { 客where = 客where.OrderBy(s => s.電話); }
                     break;
+                case "客戶名稱":
+                    if (sortOrder.Equals(currentSort))
+                    { 客where = 客where.OrderByDescending(s => s.客戶資料.客戶名稱); }
+                    else { 客where = 客where.OrderBy(s => s.客戶資料.客戶名稱); }
+                    break;
                 default:
                     客where = 客where.OrderBy(s => s.職稱);
                     break;
