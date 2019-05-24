@@ -6,7 +6,7 @@ using System.Web.Mvc;
 namespace MVCCRUDW1.Models
 {   
 	public  class 客戶資料Repository : EFRepository<客戶資料>, I客戶資料Repository
-	{
+    {
         public List<SelectListItem> 客戶分類ItemList()
         {
             List<SelectListItem> 分類ItemList = new List<SelectListItem>();

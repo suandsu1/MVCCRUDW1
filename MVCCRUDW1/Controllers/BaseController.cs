@@ -8,9 +8,13 @@ using System.Web.Mvc;
 
 namespace MVCCRUDW1.Controllers
 {
-    public class ClosedXMLController : Controller
+    public class BaseController : Controller
     {
-        // GET: ClosedXML
+        protected override void HandleUnknownAction(string actionName)
+        {
+            this.Redirect("/").ExecuteResult(this.ControllerContext);
+        }
+
         public ActionResult DataExport(IQueryable data, string Sheet)
         {
             //ClosedXML

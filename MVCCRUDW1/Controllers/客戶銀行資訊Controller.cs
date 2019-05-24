@@ -10,7 +10,7 @@ using MVCCRUDW1.Models;
 
 namespace MVCCRUDW1.Controllers
 {
-    public class 客戶銀行資訊Controller : ClosedXMLController
+    public class 客戶銀行資訊Controller : BaseController
     {
         客戶銀行資訊Repository db客戶銀行;
         客戶資料Repository re客;
@@ -34,7 +34,7 @@ namespace MVCCRUDW1.Controllers
         //closedXML匯出
         public ActionResult closedXMLDataExport(string sortOrder, string currentSort, string searchString = null)
         {
-            var 客where = db客銀.searchALL(sortOrder, currentSort, searchString);
+            var 客where = db客戶銀行.searchALL(sortOrder, currentSort, searchString);
             var 資料Export = 客where.Select(c => new { c.客戶資料.客戶名稱, c.帳戶名稱, c.帳戶號碼, c.銀行代碼, c.銀行名稱 });
 
             return DataExport(資料Export, "客戶銀行資訊");

@@ -10,7 +10,7 @@ using MVCCRUDW1.Models;
 
 namespace MVCCRUDW1.Controllers
 {
-    public class 客戶聯絡人Controller : ClosedXMLController
+    public class 客戶聯絡人Controller : BaseController
     {
         客戶聯絡人Repository db聯絡人;
         客戶資料Repository re客;

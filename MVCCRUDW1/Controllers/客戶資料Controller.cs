@@ -10,7 +10,7 @@ using MVCCRUDW1.Models;
 
 namespace MVCCRUDW1.Controllers
 {
-    public class 客戶資料Controller : ClosedXMLController
+    public class 客戶資料Controller : BaseController
     {
         客戶資料Repository re客;
         public 客戶資料Controller()

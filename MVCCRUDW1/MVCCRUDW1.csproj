@@ -147,7 +147,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\ClosedXMLController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\View客戶統計表Controller.cs" />
     <Compile Include="Controllers\客戶聯絡人Controller.cs" />
@@ -314,6 +314,7 @@
     <Content Include="Views\View客戶統計表\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\ClosedXML\" />
   </ItemGroup>
   <ItemGroup>
