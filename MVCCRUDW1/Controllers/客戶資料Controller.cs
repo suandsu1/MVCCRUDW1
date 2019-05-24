@@ -13,9 +13,11 @@ namespace MVCCRUDW1.Controllers
     public class 客戶資料Controller : BaseController
     {
         客戶資料Repository re客;
+        View客戶統計表Repository View統計表;
         public 客戶資料Controller()
         {
             re客 = RepositoryHelper.Get客戶資料Repository();
+            View統計表 = RepositoryHelper.GetView客戶統計表Repository();
         }
 
         // GET: 客戶資料
@@ -37,6 +39,18 @@ namespace MVCCRUDW1.Controllers
 
             return View(客where.ToList());
 
+        }
+
+        [OutputCache(NoStore = true, Duration = 0)]
+        public ActionResult Json客戶聯絡人(int? id)
+        {
+            var d = View統計表.Find(id.Value);
+            return Json(new
+            {
+                客戶名稱 = d.客戶名稱,
+                聯絡人數量 = d.聯絡人數量,
+                銀行帳戶數量 = d.銀行帳戶數量
+            }, JsonRequestBehavior.AllowGet);
         }
 
         //closedXML匯出

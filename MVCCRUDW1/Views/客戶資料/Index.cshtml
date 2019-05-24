@@ -51,7 +51,6 @@
 
         <th></th>
     </tr>
-
     @foreach (var item in Model)
     {
         <tr>
@@ -79,7 +78,9 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })|
+                <button type="button" onclick="getData(@Html.DisplayFor(modelItem => item.Id))">取得聯絡 資料</button>
+
             </td>
         </tr>
     }
@@ -90,3 +91,13 @@
     @Html.ActionLink("匯出Excel", "closedXMLDataExport", "客戶資料", htmlAttributes: new { @class = "btn btn-default" })
 
 </div>
+
+<script>
+    function getData(p1) {
+        
+        $.get('@Url.Action("Json客戶聯絡人", "客戶資料")?id=' + p1, function (data) {
+            alert("客戶名稱:"  + data.客戶名稱 + "\n聯絡人數量:" + data.聯絡人數量 + "\n銀行帳戶數量:" + data.銀行帳戶數量);
+            console.log(data);
+        });
+    }
+</script>
