@@ -20,19 +20,23 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.職稱)
+            @Html.ActionLink("職稱", "Index", new { sortOrder = "職稱", currentSort = ViewBag.職稱Sort })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.姓名)
+            @Html.ActionLink("姓名", "Index", new { sortOrder = "姓名", currentSort = ViewBag.姓名Sort })
+
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.ActionLink("Email", "Index", new { sortOrder = "Email", currentSort = ViewBag.EmailSort })
+
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.手機)
+            @Html.ActionLink("手機", "Index", new { sortOrder = "手機", currentSort = ViewBag.手機Sort })
+
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.電話)
+            @Html.ActionLink("電話", "Index", new { sortOrder = "電話", currentSort = ViewBag.電話Sort })
+
         </th>
 
         <th>
