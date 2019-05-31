@@ -1,14 +1,7 @@
 ﻿@model IEnumerable<MVCCRUDW1.Models.客戶資料>
-
-@{
-    ViewBag.Title = "Index";
+@section navname{
+    <li><a href="#">客戶資料</a></li>
 }
-
-<h2>客戶資料</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 
 @using (Html.BeginForm("Index", "客戶資料", FormMethod.Get))
 {
@@ -78,8 +71,7 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })|
-                <button type="button" onclick="getData(@Html.DisplayFor(modelItem => item.Id))">取得聯絡 資料</button>
+                <button type="button" onclick="getData(@Html.DisplayFor(modelItem => item.Id))">刪除</button>
 
             </td>
         </tr>
@@ -94,10 +86,16 @@
 
 <script>
     function getData(p1) {
-        
-        $.get('@Url.Action("Json客戶聯絡人", "客戶資料")?id=' + p1, function (data) {
-            alert("客戶名稱:"  + data.客戶名稱 + "\n聯絡人數量:" + data.聯絡人數量 + "\n銀行帳戶數量:" + data.銀行帳戶數量);
+
+        var yes = confirm('你確定要刪除資料？');
+
+        if (yes) {
+            $.get('@Url.Action("JsonDelete", "客戶資料")?id=' + p1, function (data) {
+            alert(data.msg);
+            window.location.reload();
             console.log(data);
         });
+        }
+        
     }
 </script>

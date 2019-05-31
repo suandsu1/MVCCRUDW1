@@ -1,14 +1,8 @@
 ﻿@model IEnumerable<MVCCRUDW1.Models.客戶銀行資訊>
-
-@{
-    ViewBag.Title = "Index";
+@section navname{
+    <li><a href="#">客戶銀行資訊</a></li>
 }
 
-<h2>客戶銀行資訊</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 @using (Html.BeginForm("Index", "客戶銀行資訊", FormMethod.Get))
 {
     <p>

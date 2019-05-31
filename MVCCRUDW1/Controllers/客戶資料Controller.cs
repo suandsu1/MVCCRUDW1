@@ -41,18 +41,6 @@ namespace MVCCRUDW1.Controllers
 
         }
 
-        [OutputCache(NoStore = true, Duration = 0)]
-        public ActionResult Json客戶聯絡人(int? id)
-        {
-            var d = View統計表.Find(id.Value);
-            return Json(new
-            {
-                客戶名稱 = d.客戶名稱,
-                聯絡人數量 = d.聯絡人數量,
-                銀行帳戶數量 = d.銀行帳戶數量
-            }, JsonRequestBehavior.AllowGet);
-        }
-
         //closedXML匯出
         public ActionResult closedXMLDataExport(string sortOrder, string currentSort, string searchString = null, string 客戶分類ItemList = null)
         {
@@ -138,6 +126,9 @@ namespace MVCCRUDW1.Controllers
             return View(客戶資料);
         }
 
+
+       
+
         // GET: 客戶資料/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -152,6 +143,20 @@ namespace MVCCRUDW1.Controllers
             }
             return View(客戶資料);
         }
+
+        //json:刪除客戶資料
+        [OutputCache(NoStore = true, Duration = 0)]
+        public ActionResult JsonDelete(int? id)
+        {
+            var d = re客.Find(id.Value);
+            d.刪除 = true; //代表刪除
+            re客.UnitOfWork.Commit();
+            return Json(new
+            {
+                msg = "刪除成功",
+            }, JsonRequestBehavior.AllowGet);
+        }
+
 
         // POST: 客戶資料/Delete/5
         [HttpPost, ActionName("Delete")]

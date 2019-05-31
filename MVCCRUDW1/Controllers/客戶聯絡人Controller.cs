@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MVCCRUDW1.ActionFilters;
 using MVCCRUDW1.Models;
+using MVCCRUDW1.ViewModel;
 
 namespace MVCCRUDW1.Controllers
 {
@@ -21,6 +23,7 @@ namespace MVCCRUDW1.Controllers
         }
 
         // GET: 客戶聯絡人
+        [取的客戶聯絡人清單attribute]
         public ActionResult Index(string sortOrder, string currentSort, string searchString = null)
         {
             ViewBag.職稱Sort = String.IsNullOrEmpty(currentSort) ? "職稱" : sortOrder;
@@ -30,8 +33,39 @@ namespace MVCCRUDW1.Controllers
             ViewBag.手機Sort = currentSort == "手機" ? "" : sortOrder;
             ViewBag.客戶名稱Sort = currentSort == "客戶名稱" ? "" : sortOrder;
             var 客where = db聯絡人.searchALL(sortOrder, currentSort, searchString);
-            return View(客where.ToList());
+            return View(ViewBag.客戶聯絡人List);
         }
+
+        [HttpPost]
+        [取的客戶聯絡人清單attribute]
+        public ActionResult Index(客戶聯絡人UpdateVM[] 客戶聯絡人data)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in 客戶聯絡人data)
+                {
+                    var dept = db聯絡人.Find(item.Id);
+                    dept.職稱 = item.職稱;
+                    dept.手機 = item.手機;
+                }
+
+                db聯絡人.UnitOfWork.Commit();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(ViewBag.客戶聯絡人List);
+        }
+
+
+        //GET:客戶聯絡人給客戶資料
+        [ChildActionOnly]
+        public ActionResult List(int id)
+        {
+            var course = db聯絡人.All().Where(p => p.客戶Id == id);
+            return PartialView(course.ToList());
+        }
+
         //closedXML匯出
         public ActionResult closedXMLDataExport(string sortOrder, string currentSort, string searchString = null)
         {

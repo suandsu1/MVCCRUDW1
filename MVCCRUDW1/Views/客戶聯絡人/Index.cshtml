@@ -1,14 +1,9 @@
-﻿@model IEnumerable<MVCCRUDW1.Models.客戶聯絡人>
+﻿@model IEnumerable<MVCCRUDW1.ViewModel.客戶聯絡人VM>
 
-@{
-    ViewBag.Title = "Index";
+@section navname{
+    <li><a href="#">客戶聯絡人</a></li>
 }
 
-<h2>客戶聯絡人</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 @using (Html.BeginForm("Index", "客戶聯絡人", FormMethod.Get))
 {
     <p>
@@ -16,70 +11,86 @@
 
     </p>
 }
+@using (Html.BeginForm())
+{
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.ActionLink("職稱", "Index", new { sortOrder = "職稱", currentSort = ViewBag.職稱Sort })
-        </th>
-        <th>
-            @Html.ActionLink("姓名", "Index", new { sortOrder = "姓名", currentSort = ViewBag.姓名Sort })
-
-        </th>
-        <th>
-            @Html.ActionLink("Email", "Index", new { sortOrder = "Email", currentSort = ViewBag.EmailSort })
-
-        </th>
-        <th>
-            @Html.ActionLink("手機", "Index", new { sortOrder = "手機", currentSort = ViewBag.手機Sort })
-
-        </th>
-        <th>
-            @Html.ActionLink("電話", "Index", new { sortOrder = "電話", currentSort = ViewBag.電話Sort })
-
-        </th>
-
-        <th>
-            @Html.ActionLink("客戶資料", "Index", new { sortOrder = "客戶名稱", currentSort = ViewBag.客戶名稱Sort })
-
-            @*@Html.DisplayNameFor(model => model.客戶資料.客戶名稱)*@
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.職稱)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.姓名)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.手機)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.電話)
-            </td>
+            <th>
+                @Html.ActionLink("職稱", "Index", new { sortOrder = "職稱", currentSort = ViewBag.職稱Sort })
+            </th>
+            <th>
+                @Html.ActionLink("姓名", "Index", new { sortOrder = "姓名", currentSort = ViewBag.姓名Sort })
 
-            <td>
-                @Html.DisplayFor(modelItem => item.客戶資料.客戶名稱)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
+            </th>
+            <th>
+                @Html.ActionLink("Email", "Index", new { sortOrder = "Email", currentSort = ViewBag.EmailSort })
+
+            </th>
+            <th>
+                @Html.ActionLink("手機", "Index", new { sortOrder = "手機", currentSort = ViewBag.手機Sort })
+
+            </th>
+            <th>
+                @Html.ActionLink("電話", "Index", new { sortOrder = "電話", currentSort = ViewBag.電話Sort })
+
+            </th>
+
+            <th>
+                @Html.ActionLink("客戶資料", "Index", new { sortOrder = "客戶名稱", currentSort = ViewBag.客戶名稱Sort })
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
-<div>
+        @*@foreach (var item in Model)*@
+        @{
+            var data = Model.ToArray();
+        }
+        @for (int i = 0; i < data.Length; i++)
+        {
+            @Html.HiddenFor(modelItem => data[i].Id)
 
-    @Html.ActionLink("匯出Excel", "closedXMLDataExport", "客戶聯絡人", htmlAttributes: new { @class = "btn btn-default" })
+            <tr>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].職稱)
+                    <br />
+                    @Html.ValidationMessageFor(modelItem => data[i].職稱, "", new { @class = "text-danger" })
 
-</div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].姓名)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].Email)
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].手機)
+                    <br />
+                    @Html.ValidationMessageFor(modelItem => data[i].手機, "", new { @class = "text-danger" })
+
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].電話)
+                    <br />
+                    @Html.ValidationMessageFor(modelItem => data[i].電話, "", new { @class = "text-danger" })
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].客戶資料.客戶名稱)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = data[i].Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = data[i].Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = data[i].Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+    <div>
+        <input type="submit" value="批次更新" />
+        @Html.ActionLink("匯出Excel", "closedXMLDataExport", "客戶聯絡人", htmlAttributes: new { @class = "btn btn-default" })
+
+    </div>
+
+}

@@ -1,12 +1,9 @@
 ﻿@model MVCCRUDW1.Models.客戶銀行資訊
 
-@{
-    ViewBag.Title = "Delete";
+@section navname{
+    <li><a href="#">刪除客戶銀行資訊</a></li>
 }
 
-<h2>Delete</h2>
-
-<h3>您確定要刪除這筆資料?</h3>
 <div>
     <h4>客戶銀行資訊</h4>
     <hr />
@@ -61,7 +58,8 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
