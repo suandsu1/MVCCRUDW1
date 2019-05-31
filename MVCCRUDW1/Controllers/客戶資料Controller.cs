@@ -7,13 +7,16 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVCCRUDW1.Models;
-
+using X.PagedList;
 namespace MVCCRUDW1.Controllers
 {
+    [RoutePrefix("客戶資料")]
     public class 客戶資料Controller : BaseController
     {
+       
         客戶資料Repository re客;
         View客戶統計表Repository View統計表;
+        private int pageSize = 2;
         public 客戶資料Controller()
         {
             re客 = RepositoryHelper.Get客戶資料Repository();
@@ -21,7 +24,8 @@ namespace MVCCRUDW1.Controllers
         }
 
         // GET: 客戶資料
-        public ActionResult Index(string sortOrder, string currentSort, string searchString = null, string 客戶分類ItemList = null)
+        [Route("{page}")]
+        public ActionResult Index(int? page, string sortOrder, string currentSort, string searchString = null, string 客戶分類ItemList = null)
         {
             ViewBag.客戶分類 = re客.客戶分類ItemList();
             ViewBag.客戶分類ItemList = re客.客戶分類ItemList();
@@ -36,10 +40,14 @@ namespace MVCCRUDW1.Controllers
 
             var 客where = re客.searchALL(sortOrder, currentSort, searchString, 客戶分類ItemList);
             var 資料Export = 客where.Select(c => new { c.客戶分類, c.客戶名稱, c.電話, c.傳真, c.地址 });
+            var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)
+            var onePageOfProducts = 客where.ToPagedList(pageNumber, pageSize); // will only contain 5 products max because of the pageSize
 
-            return View(客where.ToList());
+            ViewBag.OnePageOfProducts = onePageOfProducts;
+            return View(onePageOfProducts.ToList());
 
         }
+
 
         //closedXML匯出
         public ActionResult closedXMLDataExport(string sortOrder, string currentSort, string searchString = null, string 客戶分類ItemList = null)

@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<MVCCRUDW1.Models.客戶資料>
+@using X.PagedList.Mvc;
+@using X.PagedList;
 @section navname{
     <li><a href="#">客戶資料</a></li>
 }
@@ -11,80 +13,82 @@
         <input type="submit" value="Search" />
     </p>
 }
+    <div class="row-fluid sortable">
+        <table class="table table-striped table-bordered bootstrap-datatable datatable">
+            <tr>
+                <th>
+                    @Html.ActionLink("客戶名稱", "Index", new { sortOrder = "客戶名稱", currentSort = ViewBag.客戶名稱Sort })
+                </th>
+                <th>
+                    @Html.ActionLink("統一編號", "Index", new { sortOrder = "統一編號", currentSort = ViewBag.統一編號Sort })
+                </th>
+                <th>
+                    @Html.ActionLink("電話", "Index", new { sortOrder = "電話", currentSort = ViewBag.電話Sort })
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.ActionLink("客戶名稱", "Index", new { sortOrder = "客戶名稱", currentSort = ViewBag.客戶名稱Sort })
-        </th>
-        <th>
-            @Html.ActionLink("統一編號", "Index", new { sortOrder = "統一編號", currentSort = ViewBag.統一編號Sort })
-        </th>
-        <th>
-            @Html.ActionLink("電話", "Index", new { sortOrder = "電話", currentSort = ViewBag.電話Sort })
+                </th>
+                <th>
+                    @Html.ActionLink("傳真", "Index", new { sortOrder = "傳真", currentSort = ViewBag.傳真Sort })
 
-        </th>
-        <th>
-            @Html.ActionLink("傳真", "Index", new { sortOrder = "傳真", currentSort = ViewBag.傳真Sort })
+                </th>
+                <th>
+                    @Html.ActionLink("地址", "Index", new { sortOrder = "地址", currentSort = ViewBag.地址Sort })
 
-        </th>
-        <th>
-            @Html.ActionLink("地址", "Index", new { sortOrder = "地址", currentSort = ViewBag.地址Sort })
+                </th>
+                <th>
+                    @Html.ActionLink("Email", "Index", new { sortOrder = "Email", currentSort = ViewBag.EmailSort })
 
-        </th>
-        <th>
-            @Html.ActionLink("Email", "Index", new { sortOrder = "Email", currentSort = ViewBag.EmailSort })
+                </th>
 
-        </th>
+                <th>
+                    @Html.ActionLink("客戶分類", "Index", new { sortOrder = "客戶分類", currentSort = ViewBag.客戶分類Sort })
 
-        <th>
-            @Html.ActionLink("客戶分類", "Index", new { sortOrder = "客戶分類", currentSort = ViewBag.客戶分類Sort })
+                </th>
 
-        </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.客戶名稱)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.統一編號)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.電話)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.傳真)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.地址)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.客戶分類)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        <button type="button" onclick="getData(@Html.DisplayFor(modelItem => item.Id))">刪除</button>
 
-        <th></th>
-    </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.客戶名稱)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.統一編號)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.電話)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.傳真)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.地址)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.客戶分類)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                <button type="button" onclick="getData(@Html.DisplayFor(modelItem => item.Id))">刪除</button>
+                    </td>
+                </tr>
+            }
 
-            </td>
-        </tr>
-    }
+        </table>
 
-</table>
-<div>
+        @Html.PagedListPager((IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Index", new { page }))
+        <div>
 
-    @Html.ActionLink("匯出Excel", "closedXMLDataExport", "客戶資料", htmlAttributes: new { @class = "btn btn-default" })
+            @Html.ActionLink("匯出Excel", "closedXMLDataExport", "客戶資料", htmlAttributes: new { @class = "btn btn-default" })
 
-</div>
-
-<script>
+        </div>
+    </div>
+        <script>
     function getData(p1) {
 
         var yes = confirm('你確定要刪除資料？');
@@ -96,6 +100,6 @@
             console.log(data);
         });
         }
-        
+
     }
-</script>
+        </script>
